@@ -1,4 +1,4 @@
-# study
+# project-name
 
 This is a sample experiment using magpie.
 ### Setup

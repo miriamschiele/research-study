@@ -1,5 +1,5 @@
 {
-  "name": "study",
+  "name": "project-name",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -19,7 +19,7 @@
     "stylelint-config-standard": "^20.0.0"
   },
   "dependencies": {
-    "magpie-base": "^3.4.0"
+    "magpie-base": "^3.5.0"
   },
   "engines": {
     "node": ">=14.0.0",
