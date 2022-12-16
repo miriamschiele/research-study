@@ -24,8 +24,8 @@ jobs:
         id: versions
         with:
           path: ${{matrix.folder}}
-          fallbackNode: '^12'
-          fallbackNpm: '^6'
+          fallbackNode: '^16'
+          fallbackNpm: '^8'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@v2
