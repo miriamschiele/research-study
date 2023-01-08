@@ -3,6 +3,11 @@
     <InstructionScreen :title="'Welcome'">
       In this study, a short description of a problem is displayed.
       Then, you are asked to come up with a method to solve the problem.
+
+      Concretely, you will first have to read a background scenario. 
+      Please read it very carefully. 
+      Afterwards, you will be asked to come up with a potential solution to the problem described in said scenario. 
+      Finally, you will be asked to rate the reliability of the text describing the background scenario.
     </InstructionScreen>
 
 
