@@ -6,7 +6,7 @@
     </InstructionScreen>
 
 
-    <TextareaScreen v-if="chooseQuestion() > 0.75" :options="randomOption()"
+    <TextareaScreen v-if="chooseQuestion() > 0.75" :options="randomOption()" 
       question="In your opinion what does Addison need to do to reduce crime?"
       qud="Crime is a wild beast preying on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is lurking in every neighborhood. In 2004, 46,177 crimes were reported compared to more than 55,000 reported in 2007. The rise in violent crime is particularly alarming. In 2004, there were 330 murders in the city, in 2007, there were over 500." />
 
@@ -23,12 +23,17 @@
       question="In your opinion what does Addison need to do to reduce crime?"
       qud="Crime is a virus infecting on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is plaguing every neighborhood. The rise in violent crime is particularly alarming." />
 
-    <Screen>
+    <Screen :validations="{
+      response: {
+        required: $magpie.v.required
+      }
+    }">
       <Slide >
         Please rate the reliability of the text.
-        <RatingInput quid="Quelle" :right="'very reliable'" :left="'not reliable'" :response.sync="$magpie.measurements.rating" />
+        <RatingInput quid="Quelle" :right="'very reliable'" :left="'not reliable'" :response.sync="$magpie.measurements.response" />
 
-        <button @click="$magpie.saveAndNextScreen()">Submit</button>
+        <button v-if="!$magpie.validateMeasurements.response.$invalid" @click="$magpie.saveAndNextScreen()">Submit</button>
+
       </Slide>
     </Screen>
 
@@ -64,7 +69,8 @@ export default {
         'Reform educational practices and create after school programs',
         'Increase street patrols that look for criminals'
       ],
-      random: Math.random()
+      random: Math.random(),
+      disableButton: true
     };
   },
   computed: {
