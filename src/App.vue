@@ -11,7 +11,12 @@
       Finally, you will be asked to rate the reliability of the text describing the background scenario.
     </InstructionScreen>
 
-    <Screen>
+    <Screen :validations="{
+      response: {
+        minLength: $magpie.v.minLength(5),
+        required: $magpie.v.required
+      }
+    }">
 
       <Slide>
         <Record :data="{
@@ -26,7 +31,7 @@
             :response.sync= "$magpie.measurements.response"
           />
         <!-- TODO: validate that at least a number of characters have been typed -->
-          <button @click="$magpie.saveAndNextScreen();">Continue</button>
+          <button v-if="!$magpie.validateMeasurements.response.$invalid" @click="$magpie.saveAndNextScreen();">Continue</button>
       </Slide>
 
     </Screen>
@@ -96,13 +101,13 @@ import _ from 'lodash';
 
 // determine group
 
-var group = _.shuffle(["A", "B", "C", "D"])[0] // TODO: give these groups more revealing names!
+var group = _.shuffle(["beast, long vignette", "virus, long vignette", "beast, short vignette", "virus, short vignette"])[0] // TODO: give these groups more revealing names!
 
 var backgrounds = {
-    "A": "Crime is a wild beast preying on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is lurking in every neighborhood. In 2004, 46,177 crimes were reported compared to more than 55,000 reported in 2007. The rise in violent crime is particularly alarming. In 2004, there were 330 murders in the city, in 2007, there were over 500.",
-    "B": "Background B",
-    "C": "Background C",
-    "D": "Background D",
+    "beast, long vignette": "Crime is a wild beast preying on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is lurking in every neighborhood. In 2004, 46,177 crimes were reported compared to more than 55,000 reported in 2007. The rise in violent crime is particularly alarming. In 2004, there were 330 murders in the city, in 2007, there were over 500.",
+    "virus, long vignette": "Crime is a virus infecting on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is plaguing every neighborhood. In 2004, 46,177 crimes were reported compared to more than 55,000 reported in 2007. The rise in violent crime is particularly alarming. In 2004, there were 330 murders in the city, in 2007, there were over 500.",
+    "beast, short vignette": "Crime is a wild beast preying on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is lurking in every neighborhood. The rise in violent crime is particularly alarming.",
+    "virus, short vignette": "Crime is a virus infecting on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is plaguing every neighborhood. The rise in violent crime is particularly alarming.",
 }
 
 var background = backgrounds[group]
