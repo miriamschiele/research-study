@@ -6,6 +6,6 @@ export default {
   completionUrl: 'https://...',
   contactEmail: 'm.schiele12@gmail.com',
   // Either 'debug', 'directLink' or 'prolific'
-  mode: 'debug',
+  mode: 'prolific',
   language: 'en'
 };
