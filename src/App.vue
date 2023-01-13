@@ -30,31 +30,12 @@
         <TextareaInput
             :response.sync= "$magpie.measurements.response"
           />
-        <!-- TODO: validate that at least a number of characters have been typed -->
           <button v-if="!$magpie.validateMeasurements.response.$invalid" @click="$magpie.saveAndNextScreen();">Continue</button>
       </Slide>
 
     </Screen>
 
-    <!-- <TextareaScreen v-if="chooseQuestion() > 0.75" :options="randomOption()"  -->
-    <!--   question="In your opinion what does Addison need to do to reduce crime?" -->
-    <!--   qud="<div style='textcolor:gray'>Background scenario</div> -->
-    <!--        <br> -->
-    <!--        Crime is a wild beast preying on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is lurking in every neighborhood. In 2004, 46,177 crimes were reported compared to more than 55,000 reported in 2007. The rise in violent crime is particularly alarming. In 2004, there were 330 murders in the city, in 2007, there were over 500." /> -->
-
-
-    <!-- <TextareaScreen v-if="chooseQuestion() > 0.5 && chooseQuestion() <= 0.75" :options="randomOption()" -->
-    <!--   question="In your opinion what does Addison need to do to reduce crime?" -->
-    <!--   qud="Crime is a virus infecting on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is plaguing every neighborhood. In 2004, 46,177 crimes were reported compared to more than 55,000 reported in 2007. The rise in violent crime is particularly alarming. In 2004, there were 330 murders in the city, in 2007, there were over 500." /> -->
-
-    <!-- <TextareaScreen v-if="chooseQuestion() > 0.25 && chooseQuestion() <= 0.5" :options="randomOption()" -->
-    <!--   question="In your opinion what does Addison need to do to reduce crime?"  -->
-    <!--   qud=" Crime is a wild beast preying on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is lurking in every neighborhood. The rise in violent crime is particularly alarming." /> -->
-
-    <!-- <TextareaScreen v-if="chooseQuestion() <= 0.25" :options="randomOption()"  -->
-    <!--   question="In your opinion what does Addison need to do to reduce crime?" -->
-    <!--   qud="Crime is a virus infecting on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is plaguing every neighborhood. The rise in violent crime is particularly alarming." /> -->
-
+    
     <Screen :validations="{
       response: {
         required: $magpie.v.required
@@ -117,7 +98,6 @@ console.log(group)
 export default {
   methods: {
     chooseQuestion: function () {
-      console.log(this.random);
       return this.random;
     },
     randomOption: function () {
