@@ -31,6 +31,21 @@ dat <- dat %>%
 # exclude data of pilot study
 dat <- dat[61:260,]
 
+# information about participants
+# age
+min(dat$age, na.rm=T)
+max(dat$age, na.rm=T)
+mean(dat$age, na.rm=T)
+
+# gender
+table(dat$gender)
+
+# political affiliation
+table(dat$affiliation)
+
+# education
+table(dat$education)
+
 # data sorting by hand (see attached document "categorizing-of-responses.pdf")
 # responses are categorized according to Thibodeau & Boroditsky (2011)
 # 1=reform: proposed solution suggests investigating the underlying cause of the problem or suggests a particular social reform to treat or inoculate the community
@@ -51,8 +66,20 @@ dat <- dat %>%
                           "both", "enforce", "reform", "enforce", "enforce", "both", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "both", "enforce", "neither", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "reform", "enforce", "both", "reform", "enforce", "enforce", "both", "enforce", "enforce", "enforce", "enforce", "reform", "both", "enforce", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "enforce", "enforce", "reform", "reform", "reform", "reform", 
                           "enforce", "enforce", "enforce", "both", "reform", "enforce", "enforce", "enforce"),
     response_category = factor(response_category, ordered = T, levels = c("reform", "both", "enforce", "neither"))
-  ) %>% 
-  filter(response_category != "neither")
+  )
+
+nrow(dat)
+# 200
+
+# excluding participants whose proposed solutions did not include any suggestions
+dat <- dat[!dat$response_category == "neither",]
+nrow(dat)
+# 187
+  
+# excluding participants who chose "rather not say" for political affiliation to avoid issues associated with unequal sample sizes
+dat <- dat[!dat$affiliation == "rather not say",]
+nrow(dat)
+# 184
 
 # participants' comments on pilot study
 dat %>% pull(comments) %>% unique()
@@ -62,18 +89,25 @@ dat %>%
   ggplot(aes(x = vignetteLength, y = as.numeric(reliability))) +
   geom_jitter(height = 0)
 
-dat %>% 
-  ggplot(aes(x = affiliation, y = as.numeric(reliability), color = vignetteLength)) +
+ggplot(data=dat, aes(x = affiliation, y = as.numeric(reliability), color = vignetteLength)) +
   geom_jitter(height = 0)
 
-dat %>% 
-  ggplot(x = response_category, y= group, aes(x = response_category)) +
-  geom_bar()
+boxplot(data=dat, as.numeric(reliability) ~ vignetteLength, xlab ="vignette length", ylab = "perceived reliability")
 
 dat %>% 
-  # filter(affiliation == "Democrat") %>% 
-  ggplot(aes(x = response_category, fill = response_category)) +
-  facet_wrap(metaphor ~ vignetteLength) +
+  ggplot(aes(x = response_category, fill = response_category, )) +
+  geom_bar() + theme_aida() + 
+  labs(x = "response category", y = "number of participants", fill = "response category")
+
+dat %>% 
+  ggplot(aes(x = response_category, fill = response_category, )) +
+  facet_wrap(affiliation ~ metaphor) +
+  geom_bar() + theme_aida() + 
+  labs(x = "response category", y = "number of participants", fill = "response category")
+
+dat %>% 
+  ggplot(aes(x = response_category, fill = response_category, )) +
+  facet_wrap(vignetteLength ~ metaphor) +
   geom_bar() + theme_aida()
 
 # Hypotheses testing
@@ -89,25 +123,26 @@ fit <- brm(
   family=cumulative("logit")
 )
 
-compare_groups(
+faintr::compare_groups(
   fit,
   higher = metaphor == "beast",
   lower  = metaphor == "virus"
 )
 
 # We judge there to be evidence in favor of the hypothesis, if the posterior probability of this difference being bigger than zero is at least 0.95.
+# results fail to reach significance
 
 # We intend to also investigate the following two hypotheses
 
 # Hypothesis 2
 # Rates of “enforce” increase for participants that identify their political affiliation as “Republican”. 
 # comparison with the grand mean
-compare_groups(
+faintr::compare_groups(
   fit,
   higher = affiliation == "Republican"
 )
 # comparison with Democrats specifically
-compare_groups(
+faintr::compare_groups(
   fit, 
   higher = affiliation == "Republican",
   lower  = affiliation == "Democrat"
@@ -132,7 +167,7 @@ fit2 <- brm(
   data = dat
 )
 
-compare_groups(
+faintr::compare_groups(
   fit2, 
   higher = vignetteLength == "long vignette",
   lower  = vignetteLength == "short vignette"
