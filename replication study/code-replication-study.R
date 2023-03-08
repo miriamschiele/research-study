@@ -1,7 +1,3 @@
----
-title: "Data Analysis for Replication of the Role of Methaphor in Reasoning"
----
-
 # set up
 library("tidyverse")
 library("brms")
@@ -174,4 +170,10 @@ faintr::compare_groups(
 )
 
 # We judge there to be evidence in favor of the hypothesis, if the posterior probability of this difference not being bigger than zero is at least 0.95.
+
+faintr::compare_groups(
+  fit, 
+  higher = vignetteLength == "long vignette",
+  lower  = vignetteLength == "short vignette"
+)
 
