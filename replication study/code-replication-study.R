@@ -34,17 +34,32 @@ dat <- dat[61:260,]
 # information about participants
 # age
 min(dat$age, na.rm=T)
+# 18
 max(dat$age, na.rm=T)
-mean(dat$age, na.rm=T)
+# 1850
+# exclude this data point since it most likely is a typo
+# use second highest value instead
+tail(sort(dat$age),5)
+# 75  76  79  85  1850
+# calculate mean without the outlier
+age.range = dat$age[!dat$age == 1850]
+mean(age.range, na.rm=T)
+# 38.86294
 
 # gender
 table(dat$gender)
+# female   male  other 
+# 92       102   3 
 
 # political affiliation
 table(dat$affiliation)
+# Democrat        neither     rather not say     Republican 
+# 108             56          3                  33 
 
 # education
 table(dat$education)
+# Did not graduate High-school     Graduated College        Graduated High-school    Higher degree 
+# 2                                96                       65                       33
 
 # data sorting by hand (see attached document "categorizing-of-responses.pdf")
 # responses are categorized according to Thibodeau & Boroditsky (2011)
