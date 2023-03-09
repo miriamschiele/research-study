@@ -98,12 +98,10 @@ dat %>% pull(comments) %>% unique()
 # data plotting
 dat %>% 
   ggplot(aes(x = vignetteLength, y = as.numeric(reliability))) +
-  geom_jitter(height = 0)
+  geom_jitter(height = 0) + labs(x = "vignette Length", y = "reported reliability")
 
 ggplot(data=dat, aes(x = affiliation, y = as.numeric(reliability), color = vignetteLength)) +
   geom_jitter(height = 0)
-
-boxplot(data=dat, as.numeric(reliability) ~ vignetteLength, xlab ="vignette length", ylab = "perceived reliability")
 
 dat %>% 
   ggplot(aes(x = response_category, fill = response_category, )) +
@@ -191,4 +189,3 @@ faintr::compare_groups(
   higher = vignetteLength == "long vignette",
   lower  = vignetteLength == "short vignette"
 )
-
