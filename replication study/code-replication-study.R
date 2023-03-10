@@ -139,7 +139,7 @@ faintr::compare_groups(
 )
 
 # We judge there to be evidence in favor of the hypothesis, if the posterior probability of this difference being bigger than zero is at least 0.95.
-# results fail to reach significance
+# results fail to reach threshold
 
 # We intend to also investigate the following two hypotheses
 
@@ -182,8 +182,7 @@ faintr::compare_groups(
   lower  = vignetteLength == "short vignette"
 )
 
-# We judge there to be evidence in favor of the hypothesis, if the posterior probability of this difference not being bigger than zero is at least 0.95.
-
+# We judge there to be evidence against the hypothesis, that is, evidence in favor of a correlation between vignette length and the effect of metaphors, if the posterior probability of this difference being bigger than zero is at least 0.95
 faintr::compare_groups(
   fit, 
   higher = vignetteLength == "long vignette",
