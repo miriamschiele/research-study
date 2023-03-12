@@ -24,7 +24,10 @@
               task: 'solution'
               }" />
         <p><div style='color:gray'>Background scenario</div></p>
-        <p>{{background}}</p>
+        <template>
+          <img v-bind:src="require(`${background}`)" />
+        </template>
+
         <p><div style='color:gray'>Question</div></p>
         <p><strong>In your opinion what does Addison need to do to reduce crime?</strong></p>
         <TextareaInput
@@ -82,18 +85,18 @@ import _ from 'lodash';
 
 // determine group
 
-var group = _.shuffle(["beast, long vignette", "virus, long vignette", "beast, short vignette", "virus, short vignette"])[0] 
+var group = _.shuffle(["beast, reliable", "virus, reliable", "beast, unreliable", "virus, unreliable"])[0] 
 
 var backgrounds = {
-    "beast, long vignette": "Crime is a wild beast preying on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is lurking in every neighborhood. In 2004, 46,177 crimes were reported compared to more than 55,000 reported in 2007. The rise in violent crime is particularly alarming. In 2004, there were 330 murders in the city, in 2007, there were over 500.",
-    "virus, long vignette": "Crime is a virus infecting on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is plaguing every neighborhood. In 2004, 46,177 crimes were reported compared to more than 55,000 reported in 2007. The rise in violent crime is particularly alarming. In 2004, there were 330 murders in the city, in 2007, there were over 500.",
-    "beast, short vignette": "Crime is a wild beast preying on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is lurking in every neighborhood. The rise in violent crime is particularly alarming.",
-    "virus, short vignette": "Crime is a virus infecting on the city of Addison. The crime rate in the once peaceful city has steadily increased over the past three years. In fact, these days it seems that crime is plaguing every neighborhood. The rise in violent crime is particularly alarming.",
+    "beast, reliable": "./assets/beast, reliable.png",
+    "virus, reliable": "./assets/virus, reliable.png",
+    "beast, unreliable": "./assets/beast, unreliable.png",
+    "virus, unreliable": "./assets/virus, unreliable.png",
 }
 
 var background = backgrounds[group]
 
-console.log(group)
+console.log(background)
 
 export default {
   methods: {
@@ -106,7 +109,7 @@ export default {
       return [leftOption, rightOption]
     }
   },
-  name: 'App',
+  name: 'FollowUp',
   data() {
     return {
         group: group,

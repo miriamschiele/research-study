@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueKonva from 'vue-konva';
 import VueMagpie from 'magpie-base';
-import App from './App.vue';
+import FollowUp from './FollowUp.vue';
 import magpieConfig from './magpie.config.js';
 
 Vue.config.productionTip = false;
@@ -14,5 +14,5 @@ Vue.use(VueMagpie, magpieConfig);
 
 // start app
 new Vue({
-  render: (h) => h(App)
+  render: (h) => h(FollowUp)
 }).$mount('#app');
