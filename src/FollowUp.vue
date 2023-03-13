@@ -8,7 +8,7 @@
       Concretely, you will first have to read a background scenario. 
       Please read it very carefully. 
       Afterwards, you will be asked to come up with a potential solution to the problem described in said scenario. 
-      Finally, you will be asked to rate the reliability of the text describing the background scenario.
+      Finally, you will be asked to rate the reliability of the information presented in the background scenario.
     </InstructionScreen>
 
     <Screen :validations="{
@@ -49,7 +49,7 @@
               group: group,
               task: 'reliability'
               }" />
-        Please rate the reliability of the text.
+        Please rate the reliability of the speaker.
         <RatingInput quid="Quelle" :right="'very reliable'" :left="'not reliable'" :response.sync="$magpie.measurements.response" />
 
         <button v-if="!$magpie.validateMeasurements.response.$invalid" @click="$magpie.saveAndNextScreen()">Submit</button>
