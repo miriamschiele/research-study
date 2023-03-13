@@ -8,7 +8,7 @@ library("aida")
 options(mc.cores = parallel::detectCores())
 
 # read in data
-dat <- read.csv("results-followup.csv", sep=";", header=TRUE)
+dat <- read.csv("results-followup-pilot.csv", sep=";", header=TRUE)
 
 #seperate columns
 dat <- dat %>%          
@@ -57,7 +57,7 @@ table(dat$education)
 # participants' comments on pilot study
 dat %>% pull(comments) %>% unique()
 
-write.csv(dat, file="dat.followup.csv")
+write.csv(dat, file="dat.followup-pilot.csv")
 
 # data sorting by hand (see attached document "categorizing-of-responses.pdf")
 # responses are categorized according to Thibodeau & Boroditsky (2011)
