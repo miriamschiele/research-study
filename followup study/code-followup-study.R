@@ -8,9 +8,8 @@ library("aida")
 options(mc.cores = parallel::detectCores())
 
 # read in data
-dat <- read.csv("results-followup-pilot.csv", sep=",", header=TRUE)
-dat <- dat[order(dat$submission_id),]
- 
+dat <- read.csv("results-followup-pilot.csv", sep=";", header=TRUE)
+
 #seperate columns
 dat <- dat %>%          
   separate(
@@ -32,9 +31,6 @@ dat <- dat %>%
 dat <- dat[261:282,]
 
 # information about participants
-# sample size
-nrow(dat)
-# 22
 # age
 min(dat$age, na.rm=T)
 # 21
@@ -77,6 +73,9 @@ write.csv(dat, file="dat.followup-pilot.csv")
 dat <- dat %>% 
   mutate(response_category = c("enforce","reform","reform","enforce","reform","reform","enforce","reform","reform","reform","reform","both","both","enforce","both","reform","enforce","reform","enforce","neither","reform","enforce"))
 
+nrow(dat)
+# 22
+
 # excluding participants whose proposed solutions did not include any suggestions
 dat <- dat[!dat$response_category == "neither",]
 nrow(dat)
@@ -89,16 +88,14 @@ dat %>%
     mean = mean(as.numeric(reliability)),
     SD = sd(as.numeric(reliability))
   )
-#speaker     mean    SD
-#<chr>      <dbl> <dbl>
-#reliable    5.5   1.18
-#unreliable  3.18  1.33
-#the newscaster is seen as more reliable (5.5) than the alcoholic (3.2)
 
 dat %>% 
-  ggplot(aes(x = speaker, y = as.numeric(reliability), color = speaker)) +
-  geom_jitter(height = 0) + 
-  labs(x = "speaker", y = "reported reliability") 
+  ggplot(aes(x = speaker, y = as.numeric(reliability))) +
+  geom_jitter(height = 0) + labs(x = "speaker", y = "reported reliability") 
+
+
+ggplot(data=dat, aes(x = affiliation, y = as.numeric(reliability), color = speaker)) +
+  geom_jitter(height = 0)
 
 dat %>% 
   ggplot(aes(x = response_category, fill = response_category, )) +
@@ -113,20 +110,27 @@ dat %>%
 
 # Hypotheses testing
 
+dat_forStats <- dat |> select(metaphor, speaker, response_category) |> 
+  mutate(expected_response = case_when(
+    metaphor == "beast" ~ response_category == "enforce",
+    metaphor == "virus" ~ response_category == "reform",
+    TRUE ~ TRUE
+  ))
+
 # main hypothesis
 # the tendency to suggest suggestions in line with the metaphor (enforce for beast and reform for virus) is more prominent in the newscaster condition than in the alcoholic condition
 # tested by logistic regression model
 # as by this method:
-fit <- glm(
-  formula = response_category ~ speaker * metaphor, 
-  data = dat,
-  poisson(link = "log")
+fit <- brms::brm(
+  formula = expected_response ~ speaker * metaphor, 
+  data    = dat_forStats,
+  family  = bernoulli(link = "logit")
 )
 
 faintr::compare_groups(
   fit,
-  higher = reliability == "newscaster",
-  lower  = reliability == "alcoholic"
+  higher = speaker == "reliable",
+  lower  = speaker == "unreliable"
 )
 
 # We judge there to be evidence in favor of the hypothesis, if the posterior probability of this difference being bigger than zero is at least 0.95.
