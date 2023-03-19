@@ -8,7 +8,7 @@ library("aida")
 options(mc.cores = parallel::detectCores())
 
 # read in data
-dat <- read.csv("results-followup-pilot.csv", sep=";", header=TRUE)
+dat <- read.csv("results-followup-pilot.csv", sep=",", header=TRUE)
 
 #seperate columns
 dat <- dat %>%          
@@ -30,29 +30,20 @@ dat <- dat %>%
 #exclude data of former studies
 dat <- dat[261:282,]
 
-# information about participants
+# information about participants 
 # age
 min(dat$age, na.rm=T)
-# 21
 max(dat$age, na.rm=T)
-# 55 
 mean(dat$age, na.rm=T)
-# 27.63 
 
 # gender
 table(dat$gender)
-# female   male 
-# 15       7 
 
 # political affiliation
 table(dat$affiliation)
-# Democrat        neither        rather not say 
-# 15              4              3 
 
 # education
 table(dat$education)
-#NA       Did not graduate High-school   Graduated College        Graduated High-school         Higher degree 
-#3        1                              10                       3                             5
 
 # participants' comments on pilot study
 dat %>% pull(comments) %>% unique()
@@ -67,7 +58,6 @@ write.csv(dat, file="dat.followup-pilot.csv")
 # 4=both: proposed solution includes same number of suggestion for both reform and enforce
 
 # data sorting and cleaning
-# solutions of the category "neither" are excluded according to Thibodeau & Boroditsky (2011)
 # suggestions in line of "neighborhood watches" are excluded according to Thibodeau & Boroditsky (2015)
 
 dat <- dat %>% 
@@ -75,11 +65,6 @@ dat <- dat %>%
 
 nrow(dat)
 # 22
-
-# excluding participants whose proposed solutions did not include any suggestions
-dat <- dat[!dat$response_category == "neither",]
-nrow(dat)
-# 21
 
 # data plotting
 dat %>% 
@@ -118,7 +103,7 @@ dat_forStats <- dat |> select(metaphor, speaker, response_category) |>
   ))
 
 # main hypothesis
-# the tendency to suggest suggestions in line with the metaphor (enforce for beast and reform for virus) is more prominent in the newscaster condition than in the alcoholic condition
+# the tendency to suggest suggestions in line with the metaphor (enforce for beast and reform for virus) is more prominent in the newscaster condition than in the hooligan condition
 # tested by logistic regression model
 # as by this method:
 fit <- brms::brm(
