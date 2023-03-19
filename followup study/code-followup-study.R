@@ -8,7 +8,9 @@ library("aida")
 options(mc.cores = parallel::detectCores())
 
 # read in data
-dat <- read.csv("results-followup-pilot.csv", sep=",", header=TRUE)
+dat <- read.csv("results-followup-pilot.csv", sep=",", header=TRUE) 
+
+dat <- dat[order(dat$submission_id),]
 
 #seperate columns
 dat <- dat %>%          
@@ -23,12 +25,13 @@ dat <- dat %>%
     convert = T 
   )
 
+#exclude data of former studies
+dat <- dat[!dat$speaker == "long vignette",]
+dat <- dat[!dat$speaker == "short vignette",]
+
 dat <- dat %>% 
   select(-responseTime) %>% 
   pivot_wider(names_from = task, values_from = response)
-
-#exclude data of former studies
-dat <- dat[261:282,]
 
 # information about participants 
 # age
@@ -61,10 +64,10 @@ write.csv(dat, file="dat.followup-pilot.csv")
 # suggestions in line of "neighborhood watches" are excluded according to Thibodeau & Boroditsky (2015)
 
 dat <- dat %>% 
-  mutate(response_category = c("enforce","reform","reform","enforce","reform","reform","enforce","reform","reform","reform","reform","both","both","enforce","both","reform","enforce","reform","enforce","neither","reform","enforce"))
+  mutate(response_category = c("enforce","reform","reform","enforce","reform","reform","enforce","reform","reform","reform","reform","both","both","enforce","both","reform","enforce","reform","enforce","neither","reform","enforce", "reform"))
 
 nrow(dat)
-# 22
+# 23
 
 # data plotting
 dat %>% 
