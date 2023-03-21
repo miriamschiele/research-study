@@ -24,8 +24,8 @@
               task: 'solution'
               }" />
         <p><div style='color:gray'>Background scenario
-        
-        Please read what this person has to say about the situation of the city of Addison.</div></p>
+          
+          Please read what this person has to say about the current situation in the City of Addison.</div></p>
         <template>
           <img v-bind:src="require(`${background}`)" />
         </template>
