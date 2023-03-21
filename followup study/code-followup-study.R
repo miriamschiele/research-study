@@ -8,7 +8,7 @@ library("aida")
 options(mc.cores = parallel::detectCores())
 
 # read in data
-dat <- read.csv("results-followup-pilot.csv", sep=",", header=TRUE) 
+dat <- read.csv("results_followup_first50.csv", sep=",", header=TRUE) 
 
 dat <- dat[order(dat$submission_id),]
 
@@ -25,10 +25,6 @@ dat <- dat %>%
     convert = T 
   )
 
-#exclude data of former studies
-dat <- dat[!dat$speaker == "long vignette",]
-dat <- dat[!dat$speaker == "short vignette",]
-
 dat <- dat %>% 
   select(-responseTime) %>% 
   pivot_wider(names_from = task, values_from = response)
@@ -36,22 +32,31 @@ dat <- dat %>%
 # information about participants 
 # age
 min(dat$age, na.rm=T)
+# 19
 max(dat$age, na.rm=T)
+# 59
 mean(dat$age, na.rm=T)
+# 32.4
 
 # gender
 table(dat$gender)
+# NA  female   male  other 
+# 1     21     27      1 
 
 # political affiliation
 table(dat$affiliation)
+#Democrat        neither rather not say     Republican 
+#22             19              1              8 
 
 # education
 table(dat$education)
+# Graduated College Graduated High-school Higher degree 
+# 26                17                    7 
 
-# participants' comments on pilot study
+# participants' comments on study
 dat %>% pull(comments) %>% unique()
 
-write.csv(dat, file="dat.followup-pilot.csv")
+write.csv(dat, file="dat.followup-first50.csv")
 
 # data sorting by hand (see attached document "categorizing-of-responses.pdf")
 # responses are categorized according to Thibodeau & Boroditsky (2011)
@@ -64,10 +69,10 @@ write.csv(dat, file="dat.followup-pilot.csv")
 # suggestions in line of "neighborhood watches" are excluded according to Thibodeau & Boroditsky (2015)
 
 dat <- dat %>% 
-  mutate(response_category = c("enforce","reform","reform","enforce","reform","reform","enforce","reform","reform","reform","reform","both","both","enforce","both","reform","enforce","reform","enforce","neither","reform","enforce", "reform"))
+  mutate(response_category = c("enforce",	"both",	"neither",	"neither",	"neither",	"neither",	"enforce",	"reform",	"reform",	"reform",	"reform",	"neither",	"reform",	"reform",	"both",	"enforce",	"reform",	"enforce",	"reform",	"enforce",	"both",	"enforce",	"reform",	"neither",	"neither",	"enforce",	"reform",	"reform",	"reform",	"reform",	"enforce",	"both",	"reform",	"enforce",	"reform",	"reform",	"enforce",	"reform",	"enforce",	"neither",	"enforce",	"reform",	"reform",	"enforce",	"neither",	"reform",	"reform",	"reform",	"enforce",	"both"))
 
 nrow(dat)
-# 23
+# 50
 
 # data plotting
 dat %>% 
