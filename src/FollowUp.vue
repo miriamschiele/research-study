@@ -23,7 +23,9 @@
               group: group,
               task: 'solution'
               }" />
-        <p><div style='color:gray'>Background scenario</div></p>
+        <p><div style='color:gray'>Background scenario
+        
+        Please read what this person has to say about the situation of the city of Addison.</div></p>
         <template>
           <img v-bind:src="require(`${background}`)" />
         </template>
