@@ -8,9 +8,7 @@ library("aida")
 options(mc.cores = parallel::detectCores())
 
 # read in data
-dat <- read.csv("results_followup_first50.csv", sep=",", header=TRUE) 
-
-dat <- dat[order(dat$submission_id),]
+dat <- read.csv("results_followup.csv", sep=",", header=TRUE) 
 
 #seperate columns
 dat <- dat %>%          
@@ -32,31 +30,34 @@ dat <- dat %>%
 # information about participants 
 # age
 min(dat$age, na.rm=T)
-# 19
+# 18
 max(dat$age, na.rm=T)
-# 59
-mean(dat$age, na.rm=T)
-# 32.4
+# 1818
+tail(sort(dat$age),5)
+# 75   75   76   82 1818
+mean.age <- dat[!dat$age == "1818",]
+mean(mean.age$age, na.rm=T)
+# 41.51
 
 # gender
 table(dat$gender)
-# NA  female   male  other 
-# 1     21     27      1 
+# NA   female   male     other 
+# 2    175      318      4 
 
 # political affiliation
 table(dat$affiliation)
-#Democrat        neither rather not say     Republican 
-#22             19              1              8 
+# Democrat  neither   rather not say     Republican 
+#229        157       6                  107 
 
 # education
 table(dat$education)
-# Graduated College Graduated High-school Higher degree 
-# 26                17                    7 
+# NA   Did not graduate High-school     Graduated College        Graduated High-school         Higher degree 
+# 4    7                                244                      150                           94 
 
 # participants' comments on study
 dat %>% pull(comments) %>% unique()
 
-write.csv(dat, file="dat.followup-first50.csv")
+write.csv(dat, file="dat.followup.csv", quote =TRUE)
 
 # data sorting by hand (see attached document "categorizing-of-responses.pdf")
 # responses are categorized according to Thibodeau & Boroditsky (2011)
@@ -69,10 +70,17 @@ write.csv(dat, file="dat.followup-first50.csv")
 # suggestions in line of "neighborhood watches" are excluded according to Thibodeau & Boroditsky (2015)
 
 dat <- dat %>% 
-  mutate(response_category = c("enforce",	"both",	"neither",	"neither",	"neither",	"neither",	"enforce",	"reform",	"reform",	"reform",	"reform",	"neither",	"reform",	"reform",	"both",	"enforce",	"reform",	"enforce",	"reform",	"enforce",	"both",	"enforce",	"reform",	"neither",	"neither",	"enforce",	"reform",	"reform",	"reform",	"reform",	"enforce",	"both",	"reform",	"enforce",	"reform",	"reform",	"enforce",	"reform",	"enforce",	"neither",	"enforce",	"reform",	"reform",	"enforce",	"neither",	"reform",	"reform",	"reform",	"enforce",	"both"))
+  mutate(response_category = c('enforce', 'neither', "reform", "both", "reform", "both", "both", "neither", "reform", "enforce", "enforce", "neither", "reform", "both", "neither", "neither", "neither", "reform", "neither", "reform", "enforce", "reform", "reform", "reform", "enforce", "neither", "neither", "reform", "enforce", "enforce", "both", "enforce", "reform", "enforce", "enforce", "enforce", "neither", "both", "enforce", "both", "neither", "reform", "neither", "reform", "reform", "reform", "reform", "reform", "both", "enforce", "reform", "enforce", "neither", "reform", "enforce", "enforce", "neither", "enforce", "reform", "enforce", "enforce", "enforce", "neither", "neither", "reform", "reform", "enforce", "enforce", "enforce", "enforce", "both", "neither", "reform", "enforce", "enforce", "enforce", "neither", "enforce", "enforce", "enforce", "reform", "reform", "neither", "neither", "enforce", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "neither", "reform", "both", "enforce", "neither", "neither", "enforce", "neither", "reform", "enforce", "enforce", 
+  "reform", "enforce", "enforce", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "enforce", "enforce", "enforce", "both", "reform", "enforce", "reform", "enforce", "reform", "reform", "enforce", "reform", "reform", "enforce", "reform", "reform", "neither", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "neither", "enforce", "reform", "reform", "reform", "reform", "reform", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "enforce", "reform", "both", "reform", "enforce", "neither", "enforce", "enforce", "enforce", "enforce", "neither", "enforce", "reform", "neither", "neither", "reform", "enforce", "enforce", "reform", "enforce", "reform", "both", "enforce", "neither", "reform", "enforce", "both", "reform", "reform", "both", "reform", "neither", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "neither", "enforce", "enforce", "reform", "reform", "reform", "enforce", "enforce", "enforce", "reform", "enforce", "reform", "enforce", "reform", "reform", "reform", "reform", "reform", "neither", "reform", "enforce", "enforce", "reform", "neither", "reform", "neither", "enforce", "enforce", "neither", "enforce", "neither", "enforce", "enforce", "enforce", "enforce", "reform", "neither", "enforce", "reform", "enforce", "both", "enforce", "reform", "enforce", "enforce", "reform", "reform", "reform", "reform", "reform", "both", "enforce", "enforce", "enforce", "enforce", "both", "both", 
+  "both", "enforce", "enforce", "reform", "enforce", "enforce", "reform", "reform", "enforce", 
+  "enforce", "reform", "reform", "enforce", "both", "both", "reform", "enforce", "enforce", "enforce", "reform", "neither", "enforce", "reform", "both", "enforce", "enforce", "enforce", "neither", "enforce", "enforce", "reform", "enforce", "enforce", "neither", "neither", "reform", "reform", "enforce", "enforce", "enforce", "reform", "reform", "enforce", "reform", "enforce", "enforce", "reform", "enforce", "reform", "enforce", "neither", "enforce", "enforce", "neither",  "reform", "both", "enforce", "reform", "enforce", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "neither", "both", "reform", "enforce", "reform", "enforce", "reform", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "reform", "enforce", "reform", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "reform", "enforce", "reform", "enforce", "enforce", "reform", "enforce", "reform", "enforce", "reform", "enforce", "reform", "both", "reform", "reform", "neither", "enforce", "both", "enforce", "enforce", "enforce", "reform", "reform", "reform", "reform", "reform", "reform", "enforce", "both",  "enforce", "reform", "enforce", "enforce", "both", "enforce", "enforce", "reform", "neither", "reform", "reform", "neither", "reform", "reform", "reform", "both", "enforce", "both", "enforce", "reform", "reform", "enforce", "reform", "enforce", "reform", "reform", "enforce", "reform", "enforce", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "enforce", "both", "reform", 
+  "enforce", "enforce",   "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", 
+  "reform", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "enforce", "enforce", "reform", "both", "enforce", "enforce", "reform", "neither", "enforce", "enforce", "enforce", "reform", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "enforce", "both", "both", "reform", "enforce", "enforce", "both", "enforce", "reform", "reform", "reform", "enforce", "reform", "both", "enforce", "enforce", "neither", "enforce", "both", "both", "both", "enforce", "neither", "reform", "enforce", "reform", "neither", "reform", "both", "reform", "reform", "reform", "enforce", "enforce", "enforce", "both", "reform", "neither",
+  "enforce", "reform", "enforce", "reform", "reform", "enforce", "enforce", "neither", "reform", "reform", "neither", "reform", "both", "enforce", "reform", "reform", "enforce", "neither",
+  "reform", "enforce", "reform", "reform", "both", "enforce"))
 
 nrow(dat)
-# 50
+# 499
 
 # data plotting
 dat %>% 
