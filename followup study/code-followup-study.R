@@ -57,8 +57,6 @@ table(dat$education)
 # participants' comments on study
 dat %>% pull(comments) %>% unique()
 
-write.csv(dat, file="dat.followup.csv", quote =TRUE)
-
 # data sorting by hand (see attached document "categorizing-of-responses.pdf")
 # responses are categorized according to Thibodeau & Boroditsky (2011)
 # 1=reform: proposed solution suggests investigating the underlying cause of the problem or suggests a particular social reform to treat or inoculate the community
