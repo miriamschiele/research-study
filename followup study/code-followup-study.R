@@ -121,6 +121,7 @@ dat_forStats <- dat |> select(metaphor, speaker, response_category) |>
 # tested by logistic regression model
 # as by this method:
 fit <- brms::brm(
+  seed = 123,
   formula = expected_response ~ speaker * metaphor, 
   data    = dat_forStats,
   family  = bernoulli(link = "logit")
