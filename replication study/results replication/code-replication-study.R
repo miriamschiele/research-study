@@ -128,6 +128,7 @@ dat %>%
 # as by this method:
 fit <- brm(
   formula = response_category ~ metaphor * vignetteLength * affiliation, 
+  seed = 123,
   data = dat,
   family=cumulative("logit")
 )
@@ -173,6 +174,7 @@ dat %>%
 
 fit2 <- brm(
   formula = as.numeric(reliability) ~ vignetteLength, 
+  seed = 123,
   data = dat
 )
 
