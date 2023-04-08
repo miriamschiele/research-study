@@ -8,17 +8,13 @@ library("aida")
 options(mc.cores = parallel::detectCores())
 
 #read in data of replication study
-dat <- read_csv("results-replication-study.csv") %>% 
+dat <- read.csv("results-replication-study.csv", sep=",", header=TRUE) %>%
   separate(
-    # which column to split up
-    col = group,
-    # names of the new column to store results
-    into = c("metaphor", "vignetteLength"),
-    # separate by which character / reg-exp
-    sep = ", ",
-    # automatically (smart-)convert the type of the new cols
-    convert = T 
-  ) 
+  col = group,
+  into = c("metaphor", "vignetteLength"),
+  sep = ",",
+  convert = T
+)
 
 dat <- dat %>% 
   select(-responseTime) %>% 
