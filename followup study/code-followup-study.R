@@ -97,6 +97,11 @@ ggplot(data=dat, aes(x = affiliation, y = as.numeric(reliability), color = speak
   geom_jitter(height = 0)
 
 dat %>% 
+  ggplot(aes(x = speaker, fill = response_category)) +
+  geom_bar(position ="dodge") + theme_aida() +
+  labs(x = "speaker", y = "number of participants", fill = "response category")
+
+dat %>% 
   ggplot(aes(x = response_category, fill = response_category, )) +
   geom_bar() + theme_aida() + 
   labs(x = "response category", y = "number of participants", fill = "response category")

@@ -105,10 +105,9 @@ dat %>%
   labs(x = "response category", y = "number of participants", fill = "response category")
 
 dat %>% 
-  ggplot(aes(x = response_category, fill = response_category, )) +
-  facet_wrap(affiliation ~ metaphor) +
-  geom_bar() + theme_aida() + 
-  labs(x = "response category", y = "number of participants", fill = "response category")
+  ggplot(aes(x = metaphor, fill = response_category)) +
+  geom_bar(position ="dodge") + theme_aida() +
+  labs(x = "metaphor", y = "number of participants", fill = "response category")
 
 dat %>% 
   ggplot(aes(x = response_category, fill = response_category, )) +
