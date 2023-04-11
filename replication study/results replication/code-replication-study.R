@@ -12,7 +12,7 @@ dat <- read.csv("results-replication-study.csv", sep=",", header=TRUE) %>%
   separate(
   col = group,
   into = c("metaphor", "vignetteLength"),
-  sep = ",",
+  sep = ", ",
   convert = T
 )
 
