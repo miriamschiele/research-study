@@ -135,7 +135,6 @@ faintr::compare_groups(
 )
 
 # We judge there to be evidence in favor of the hypothesis, if the posterior probability of this difference being bigger than zero is at least 0.95.
-# results fail to reach threshold
 
 # We intend to also investigate the following two hypotheses
 
