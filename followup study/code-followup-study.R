@@ -121,6 +121,10 @@ dat_forStats <- dat |> select(metaphor, speaker, response_category) |>
     TRUE ~ TRUE
   ))
 
+# plotting
+tab = table(dat_forStats$speaker,dat_forStats$expected_response)
+mosaicplot(tab, xlab = "speaker", ylab = "expected reponse")
+
 # main hypothesis
 # the tendency to suggest suggestions in line with the metaphor (enforce for beast and reform for virus) is more prominent in the newscaster condition than in the hooligan condition
 # tested by logistic regression model
